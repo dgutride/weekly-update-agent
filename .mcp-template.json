@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "mcp-atlassian": {
+      "command": "podman",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e", "JIRA_URL",
+        "-e", "JIRA_PERSONAL_TOKEN",
+        "-e", "JIRA_SSL_VERIFY",
+        "ghcr.io/sooperset/mcp-atlassian"
+      ],
+      "env": {
+        "JIRA_URL": "https://issues.redhat.com",
+        "JIRA_PERSONAL_TOKEN": "your-token-here",
+        "JIRA_SSL_VERIFY": "true"
+      }
+    }
+  }
+}
