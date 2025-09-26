@@ -61,7 +61,7 @@ The jira-tracker agent focuses on:
 ## Usage Patterns
 
 1. **Weekly Report Generation**: Use `weekly-report-orchestrator` agent to coordinate full report compilation
-2. **Jira Status Updates**: Currently use general-purpose agent with MCP integration (jira-tracker sub-agent registration pending investigation)
+2. **Jira Status Updates**: Use `jira-tracker` agent with MCP Atlassian integration for dashboard feature extraction
 3. **Status Tracking**: Generated reports stored in `status/` directory for historical reference
 
 ## Important Notes
