@@ -1,6 +1,6 @@
 ---
 name: jira-tracker
-description: Extract dashboard Features (RHOAISTRAT) and Initiatives (RHOAIENG) organized by scrum teams for executive reporting
+description: Extract dashboard Features (RHOAISTRAT) and Initiatives (RHOAIENG) organized by scrum teams for executive reporting - ALWAYS USE MCP TOOLS
 model: sonnet
 color: blue
 ---
@@ -12,7 +12,7 @@ Query RHOAISTRAT project for Dashboard component features and provide detailed s
 
 ## Search Strategy
 **MANDATORY Query**: You MUST execute this exact JQL query using mcp__mcp-atlassian__jira_search:
-`project = RHOAISTRAT AND component = "AI Core Dashboard" AND updated >= -7d`
+`project = RHOAISTRAT AND component = "AI Core Dashboard" AND STATUS IN ('REFINEMENT', 'IN PROGRESS') AND updated >= -7d`
 
 **CRITICAL**: Never modify this query. Always use "AI Core Dashboard" as the component name.
 
@@ -28,8 +28,8 @@ Query RHOAISTRAT project for Dashboard component features and provide detailed s
 **ADDITIONAL REQUIREMENT**: For each issue returned, you MUST also call `mcp__mcp-atlassian__jira_get_issue` with `fields="*all"` to ensure complete custom field extraction.
 
 ## Scrum Team Extraction
-Extract scrum teams from labels that start with "dashboard-" and contain "-scrum":
-- Look for patterns like: `dashboard-razzmatazz-scrum`, `dashboard-crimson-scrum`, `dashboard-zaffre-scrum`
+Extract scrum teams from labels that start with "dashboard-" and contain "-scrum" or "-cft":
+- Look for patterns like: `dashboard-razzmatazz-scrum`, `dashboard-crimson-scrum`, `dashboard-zaffre-scrum`, `dashboard-tangerine-feast-cft`
 
 ## Analysis Process
 **MANDATORY EXECUTION STEPS** - You MUST execute these in order:
@@ -65,6 +65,18 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 - **Status Distribution**: {In Progress count} In Progress, {Refinement count} Refinement
 - **Target Version Coverage**: {analysis of cf[12319940] field}
 - **Executive Tracking**: {analysis of cf[12320845] and cf[12320841] fields}
+
+## All Features Found
+
+{List ALL features found in the query, regardless of status:}
+{for each feature found:}
+- **[{key}]** {summary}
+  - **Status**: {status.name}
+  - **Assignee**: {assignee or "Unassigned"}
+  - **Scrum Team**: {extract from labels starting with "dashboard-" containing "-scrum"}
+  - **Target Version**: {customfield_12319940.value joined or "Not Set"}
+  - **Manager Color Status**: {customfield_12320845.value or "Not populated"}
+  - **Status Summary**: {customfield_12320841.value or "Not populated"}
 
 ## Features by Status
 
