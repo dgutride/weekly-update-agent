@@ -12,7 +12,8 @@ This repository contains a weekly report automation system that uses Claude Code
 The project implements a multi-agent architecture for automated report generation:
 
 - **weekly-report-orchestrator**: Master agent that coordinates data collection and compiles final reports
-- **jira-tracker**: Specialized agent for extracting Jira updates from dashboard-related epics/features
+- **jira-tracker**: Extract dashboard Features (RHOAISTRAT) and Initiatives (RHOAIENG) organized by scrum teams for executive reporting
+- **jira-deep-insights**: Extract RHOAISTRAT features with AI Core Dashboard component in active statuses (In Progress, Refinement) with child progress tracking
 - **slack-data-collector**: Planned agent for Slack communications analysis
 - **google-workspace-collector**: Planned agent for Google Calendar/Docs/Gmail integration
 
@@ -51,18 +52,28 @@ Slack/Jira/Google APIs → MCP Servers → Sub-Agents → Report Orchestrator �
 
 ## Jira Integration Specifics
 
-The jira-tracker agent focuses on:
+### jira-tracker agent
 - Projects: RHAIENG, RHAOIENG, RHOAISTRAT
 - Issue types: Epic, Feature
 - Component filter: "Dashboard"
 - Time range: Last 5 days only
 - Output categorization: Completed Work, In Progress, Blocked/At Risk, New/Planning
 
+### jira-deep-insights agent
+- Project: RHOAISTRAT only
+- Issue type: Feature
+- Component filter: "AI Core Dashboard" (exact match)
+- Status filter: In Progress, Refinement (excludes New, Resolved, Closed)
+- Time range: All matching features (no time limit)
+- Child progress tracking: Uses customfield_12317141 (Hierarchy Progress Bar) for child epic rollup
+- Output: Timestamped markdown file in `status/` directory with progress analysis
+
 ## Usage Patterns
 
 1. **Weekly Report Generation**: Use `weekly-report-orchestrator` agent to coordinate full report compilation
-2. **Jira Status Updates**: Use `jira-tracker` agent with MCP Atlassian integration for dashboard feature extraction
-3. **Status Tracking**: Generated reports stored in `status/` directory for historical reference
+2. **Dashboard Feature Overview**: Use `jira-tracker` agent for multi-project dashboard feature/epic extraction
+3. **Deep Feature Analysis**: Use `jira-deep-insights` agent for detailed RHOAISTRAT feature progress with child epic tracking
+4. **Status Tracking**: Generated reports stored in `status/` directory for historical reference
 
 ## Important Notes
 
@@ -70,3 +81,4 @@ The jira-tracker agent focuses on:
 - Sub-agent system requires proper YAML frontmatter formatting
 - Report format follows specific executive structure requirements
 - Jira queries target Red Hat internal instance with specific project scoping
+- to memorize
