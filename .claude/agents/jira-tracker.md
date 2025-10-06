@@ -35,7 +35,7 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 **MANDATORY EXECUTION STEPS** - You MUST execute these in order:
 
 1. **STEP 1 - MANDATORY SEARCH**: Execute `mcp__mcp-atlassian__jira_search` with:
-   - JQL: `project = RHOAISTRAT AND component = "AI Core Dashboard" AND updated >= -7d`
+   - JQL: `project = RHOAISTRAT AND component = "AI Core Dashboard" AND STATUS IN ('REFINEMENT', 'IN PROGRESS') AND updated >= -7d`
    - Fields: `summary,status,assignee,labels,updated,description,created,customfield_12319940,customfield_12320845,customfield_12320841`
    - Limit: 50
 
