@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
-echo "Cloning google_workspace_mcp repository..."
-git clone https://github.com/taylorwilsdon/google_workspace_mcp.git /tmp/google_workspace_mcp
+tempdir=$(mktemp -d)
+echo "Cloning google_workspace_mcp repository into $tempdir..."
+git clone https://github.com/taylorwilsdon/google_workspace_mcp.git $tempdir/google_workspace_mcp
 
-cd /tmp/google_workspace_mcp
+cd $tempdir/google_workspace_mcp
 
 echo "Building podman container..."
 podman build -t google-workspace-mcp .
