@@ -14,32 +14,18 @@ The project implements a multi-agent architecture for automated report generatio
 - **weekly-report-orchestrator**: Master agent that coordinates data collection and compiles final reports
 - **jira-tracker**: Extract dashboard Features (RHOAISTRAT) and Initiatives (RHOAIENG) organized by scrum teams for executive reporting
 - **jira-deep-insights**: Extract RHOAISTRAT features with AI Core Dashboard component in active statuses (In Progress, Refinement) with child progress tracking
+- **calendar-with-gemini-notes**: Extract Google Calendar events with AI-generated Gemini meeting notes for meeting summaries and insights
 - **slack-data-collector**: Planned agent for Slack communications analysis
-- **google-workspace-collector**: Planned agent for Google Calendar/Docs/Gmail integration
 
 Sub-agents are stored in `.claude/agents/` as markdown files with YAML frontmatter.
 
 ### MCP Integration
 The system uses Model Context Protocol (MCP) servers for external system integration:
 
-- **mcp-atlassian**: Jira/Confluence integration
-  - Upstream: https://github.com/wonkothesanest/mcp-atlassian
-  - Configured in `.mcp.json` to connect to Red Hat Jira instance (https://issues.redhat.com)
-  - Authentication: JIRA_API_TOKEN environment variable
-
-- **slack**: Slack workspace integration
-  - Upstream: https://github.com/korotovsky/slack-mcp-server
-  - Package: `slack-mcp-server` (npm)
-  - Runs via npx (automatically downloads latest version)
-  - Authentication: SLACK_XOXC_TOKEN and SLACK_XOXD_TOKEN environment variables
-  - Token extraction: https://github.com/maorfr/slack-token-extractor
-  - Features: conversations_history, conversations_replies, conversations_search_messages, channels_list
-
-- **gmail**: Gmail integration
-  - Upstream: https://github.com/PaulFidika/gmail-mcp-server
-  - Requires configuration with your own OAuth2 client credentials [help](https://github.com/PaulFidika/gmail-mcp-server?tab=readme-ov-file#1-get-google-authentication)
-  - Authentication: GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET environment variables
-  - Supports email search, draft creation, and attachment extraction
+- **mcp-atlassian**: Configured in `.mcp.json` to connect to Red Hat Jira instance (https://issues.redhat.com)
+- **google-workspace**: Configured in `.mcp.json` to connect to Google Calendar and Gmail APIs
+- Uses podman containers for secure, isolated MCP server execution
+- Authentication via OAuth (Google) and personal access tokens (Jira) stored in environment variables
 
 
 ### Data Flow
@@ -84,12 +70,26 @@ Slack/Jira/Google APIs → MCP Servers → Sub-Agents → Report Orchestrator �
 - Child progress tracking: Uses customfield_12317141 (Hierarchy Progress Bar) for child epic rollup
 - Output: Timestamped markdown file in `status/` directory with progress analysis
 
+## Google Workspace Integration Specifics
+
+### calendar-with-gemini-notes agent
+- Data sources: Google Calendar + Gmail (Gemini notes only)
+- Time range: Defaults to last 7 days, user can specify single day or custom range
+- Calendar data: All meetings with full event details (title, attendees, time, location)
+- Gemini notes: AI-generated meeting summaries from gemini-notes@google.com
+- Matching: Automatically matches Gemini notes to calendar events by title and date
+- Meeting categorization: 1:1s, Team, Cross-functional, External, Planning/Strategy, Status/Updates, Technical, Other
+- Output: Timestamped markdown file in `status/calendar-events-{timestamp}.md`
+- Highlights: Aggregates decisions, action items, and identifies most important meetings
+- Setup: Requires OAuth credentials configured in `.mcp.json` (see GOOGLE_WORKSPACE_SETUP.md)
+
 ## Usage Patterns
 
 1. **Weekly Report Generation**: Use `weekly-report-orchestrator` agent to coordinate full report compilation
 2. **Dashboard Feature Overview**: Use `jira-tracker` agent for multi-project dashboard feature/epic extraction
 3. **Deep Feature Analysis**: Use `jira-deep-insights` agent for detailed RHOAISTRAT feature progress with child epic tracking
-4. **Status Tracking**: Generated reports stored in `status/` directory for historical reference
+4. **Calendar with Meeting Notes**: Use `calendar-with-gemini-notes` agent to extract calendar events with AI-generated meeting summaries
+5. **Status Tracking**: Generated reports stored in `status/` directory for historical reference
 
 ## Important Notes
 

@@ -16,6 +16,16 @@
         "JIRA_PERSONAL_TOKEN": "your-token-here",
         "JIRA_SSL_VERIFY": "true"
       }
+    },
+     "google_workspace": {
+      "command": "uvx",
+      "args": ["workspace-mcp"],
+      "env": {
+        "GOOGLE_OAUTH_CLIENT_ID": "YOUR_CLIENT_ID_HERE",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "YOUR_CLIENT_SECRET_HERE",
+        "USER_GOOGLE_EMAIL": "your.email@gmail.com",
+        "OAUTHLIB_INSECURE_TRANSPORT": "1"
+      }
     }
   }
 }
