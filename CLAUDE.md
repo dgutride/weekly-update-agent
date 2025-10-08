@@ -22,9 +22,24 @@ Sub-agents are stored in `.claude/agents/` as markdown files with YAML frontmatt
 ### MCP Integration
 The system uses Model Context Protocol (MCP) servers for external system integration:
 
-- **mcp-atlassian**: Configured in `.mcp.json` to connect to Red Hat Jira instance (https://issues.redhat.com)
-- Uses podman containers for secure, isolated MCP server execution
-- Authentication via personal access tokens stored in environment variables
+- **mcp-atlassian**: Jira/Confluence integration
+  - Upstream: https://github.com/wonkothesanest/mcp-atlassian
+  - Configured in `.mcp.json` to connect to Red Hat Jira instance (https://issues.redhat.com)
+  - Authentication: JIRA_API_TOKEN environment variable
+
+- **slack-mcp**: Slack workspace integration
+  - Upstream: https://github.com/redhat-community-ai-tools/slack-mcp
+  - Runs via podman container (quay.io/redhat-ai-tools/slack-mcp)
+  - Authentication: SLACK_XOXC_TOKEN and SLACK_XOXD_TOKEN environment variables
+  - Requires LOGS_CHANNEL_ID for operational logging
+  - Token extraction: https://github.com/maorfr/slack-token-extractor
+
+- **gmail**: Gmail integration
+  - Upstream: https://github.com/PaulFidika/gmail-mcp-server
+  - Requires configuration with your own OAuth2 client credentials [help](https://github.com/PaulFidika/gmail-mcp-server?tab=readme-ov-file#1-get-google-authentication)
+  - Authentication: GMAIL_CLIENT_ID and GMAIL_CLIENT_SECRET environment variables
+  - Supports email search, draft creation, and attachment extraction
+
 
 ### Data Flow
 ```
