@@ -27,6 +27,7 @@ The system uses Model Context Protocol (MCP) servers for external system integra
 - Uses podman containers for secure, isolated MCP server execution
 - Authentication via OAuth (Google) and personal access tokens (Jira) stored in environment variables
 
+
 ### Data Flow
 ```
 Slack/Jira/Google APIs → MCP Servers → Sub-Agents → Report Orchestrator → Weekly Report

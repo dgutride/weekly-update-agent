@@ -60,6 +60,8 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 **Data Source**: RHOAISTRAT Dashboard component features
 **Total Features**: {actual count from API}
 
+**Jira Query URI**: https://issues.redhat.com/issues/?jql=project%20%3D%20RHOAISTRAT%20AND%20component%20%3D%20%22AI%20Core%20Dashboard%22%20AND%20STATUS%20IN%20(%27REFINEMENT%27%2C%20%27IN%20PROGRESS%27)%20AND%20updated%20%3E%3D%20-7d
+
 ## Executive Summary
 - **Active Features**: {count} dashboard features
 - **Status Distribution**: {In Progress count} In Progress, {Refinement count} Refinement
@@ -71,6 +73,7 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 {List ALL features found in the query, regardless of status:}
 {for each feature found:}
 - **[{key}]** {summary}
+  - **Jira**: https://issues.redhat.com/browse/{key}
   - **Status**: {status.name}
   - **Assignee**: {assignee or "Unassigned"}
   - **Scrum Team**: {extract from labels starting with "dashboard-" containing "-scrum"}
@@ -83,6 +86,7 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 ### In Progress Features
 {for each In Progress feature:}
 - **[{key}]** {summary}
+  - **Jira**: https://issues.redhat.com/browse/{key}
   - **Assignee**: {assignee or "Unassigned"}
   - **Scrum Team**: {extract from labels starting with "dashboard-" containing "-scrum"}
   - **Target Version**: {customfield_12319940.value joined or "Not Set"}
@@ -92,6 +96,7 @@ Extract scrum teams from labels that start with "dashboard-" and contain "-scrum
 ### Refinement Features
 {for each Refinement feature:}
 - **[{key}]** {summary}
+  - **Jira**: https://issues.redhat.com/browse/{key}
   - **Assignee**: {assignee or "Unassigned"}
   - **Scrum Team**: {extract from labels starting with "dashboard-" containing "-scrum"}
   - **Target Version**: {customfield_12319940.value joined or "Not Set"}
