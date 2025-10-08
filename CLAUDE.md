@@ -27,12 +27,13 @@ The system uses Model Context Protocol (MCP) servers for external system integra
   - Configured in `.mcp.json` to connect to Red Hat Jira instance (https://issues.redhat.com)
   - Authentication: JIRA_API_TOKEN environment variable
 
-- **slack-mcp**: Slack workspace integration
-  - Upstream: https://github.com/redhat-community-ai-tools/slack-mcp
-  - Runs via podman container (quay.io/redhat-ai-tools/slack-mcp)
+- **slack**: Slack workspace integration
+  - Upstream: https://github.com/korotovsky/slack-mcp-server
+  - Package: `slack-mcp-server` (npm)
+  - Runs via npx (automatically downloads latest version)
   - Authentication: SLACK_XOXC_TOKEN and SLACK_XOXD_TOKEN environment variables
-  - Requires LOGS_CHANNEL_ID for operational logging
   - Token extraction: https://github.com/maorfr/slack-token-extractor
+  - Features: conversations_history, conversations_replies, conversations_search_messages, channels_list
 
 - **gmail**: Gmail integration
   - Upstream: https://github.com/PaulFidika/gmail-mcp-server
